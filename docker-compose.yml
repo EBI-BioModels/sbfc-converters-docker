@@ -1,0 +1,48 @@
+services:
+  db:
+    image: mariadb:10.6
+    environment:
+      MYSQL_DATABASE: converters-dev
+      MYSQL_USER: wpk8s_rw
+      MYSQL_PASSWORD: ${DB_PASS}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS}
+    volumes:
+      - db_data:/var/lib/mysql
+      - ../sbfcOnline/db/converters.sql:/docker-entrypoint-initdb.d/converters.sql:ro
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  tomcat:
+    build:
+      # Context is the project root so the Dockerfile can reference files from
+      # both sbfc-webapp-k8s/ and sbfc-converters-aws-ec2/ in a single COPY layer.
+      context: ..
+      dockerfile: sbfc-converters-aws-ec2/Dockerfile
+    ports:
+      - "127.0.0.1:8090:8080"
+    volumes:
+      # JARs and MIRIAM registry from the checked-out converter library
+      - ../sbfc-converters/sbfc/lib:/data/converters/sbfc/lib:ro
+      - ../sbfc-converters/sbfc/miriam.xml:/data/converters/sbfc/miriam.xml:ro
+      # Persistent runtime data
+      - jobs_data:/data/converters/jobs
+      - zip_data:/data/converters/zip
+      - ws_data:/data/converters/ws
+      - sbfc_logs:/data/converters/sbfc/log
+    environment:
+      # Passes DB_PASS as a JVM system property so Tomcat context XML can reference ${DB_PASS}
+      CATALINA_OPTS: -DDB_PASS=${DB_PASS}
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  db_data:
+  jobs_data:
+  zip_data:
+  ws_data:
+  sbfc_logs:
