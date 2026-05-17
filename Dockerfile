@@ -1,5 +1,5 @@
 FROM tomcat:8.5.82-jdk8
-LABEL maintainer="biomodels-developers@ebi.ac.uk"
+LABEL maintainer="develop@biomodels.org"
 
 ARG UID=1000
 ARG USERNAME=tomcat
@@ -32,11 +32,10 @@ ENV JAVA_OPTS="$JAVA_OPTS_1 $JAVA_OPTS_2 $JAVA_OPTS_3 -server -noverify -Djava.n
 
 EXPOSE 8080
 
-# Build context is the project root (biomodels-converters/)
-COPY sbfc-webapp-k8s/tomcat-users.xml /usr/local/tomcat/conf/
-COPY sbfc-webapp-k8s/context.xml /usr/local/tomcat/temp/
-COPY sbfc-webapp-k8s/sbfcOnline.war sbfc-converters-aws-ec2/biomodels#tools#converters-local.xml /usr/local/tomcat/temp/
-COPY sbfc-converters-aws-ec2/sbfConverterOnline.sh /data/converters/sbfc/sbfConverterOnline.sh
+COPY tomcat-users.xml /usr/local/tomcat/conf/
+COPY context.xml /usr/local/tomcat/temp/
+COPY sbfcOnline.war biomodels#tools#converters-local.xml /usr/local/tomcat/temp/
+COPY sbfConverterOnline.sh /data/converters/sbfc/sbfConverterOnline.sh
 
 RUN rm -rf /usr/local/tomcat/webapps; \
     mv /usr/local/tomcat/webapps.dist /usr/local/tomcat/webapps; \

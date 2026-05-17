@@ -1,1 +1,6 @@
 .env
+
+# Large binary dependencies — run fetch-deps.sh to populate these locally
+sbfcOnline.war
+sbfc/lib/
+sbfc/miriam.xml
