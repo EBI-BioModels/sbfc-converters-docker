@@ -52,7 +52,7 @@ While containers are running:
 
 ```bash
 # As the app user
-docker compose exec db mysql -u wpk8s_rw -p"${DB_PASS}" converters-dev
+docker compose exec db mysql -u bmappuser -p"${DB_PASS}" converters-dev
 
 # As root
 docker compose exec db mysql -u root -p"${DB_ROOT_PASS}" converters-dev

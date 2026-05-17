@@ -3,7 +3,7 @@
     <Resource name="jdbc/mydb"
               auth="Container"
               type="javax.sql.DataSource"
-              username="wpk8s_rw"
+              username="bmappuser"
               password="${DB_PASS}"
               driverClassName="com.mysql.jdbc.Driver"
               url="jdbc:mysql://db:3306/converters-dev?autoReconnect=true"

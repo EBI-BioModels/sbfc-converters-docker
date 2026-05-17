@@ -3,7 +3,7 @@ services:
     image: mariadb:10.6
     environment:
       MYSQL_DATABASE: converters-dev
-      MYSQL_USER: wpk8s_rw
+      MYSQL_USER: bmappuser
       MYSQL_PASSWORD: ${DB_PASS}
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS}
     volumes:
