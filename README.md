@@ -16,7 +16,12 @@ Runs the full BioModels Converters stack (Tomcat webapp + MariaDB) using Docker 
 cd sbfc-converters-aws-ec2
 cp .env.example .env
 # Edit .env and set DB_PASS and DB_ROOT_PASS to values of your choice
+
+# Populate large binary dependencies (WAR, JARs, miriam.xml) — gitignored
+./fetch-deps.sh
 ```
+
+On EC2, if only this repo is cloned (not the full monorepo), copy the files manually as described inside `fetch-deps.sh`.
 
 ## Start
 
@@ -172,6 +177,7 @@ Do **not** open port 8090 — the container binds to `127.0.0.1` only.
 
 ```bash
 cd sbfc-converters-aws-ec2
+./fetch-deps.sh          # populate sbfcOnline.war, sbfc/lib/, sbfc/miriam.xml
 docker compose up -d --build
 ```
 
