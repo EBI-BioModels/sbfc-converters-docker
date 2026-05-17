@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context docBase="${catalina.base}/deploy/sbfcOnline.war">
+    <Resource name="jdbc/mydb"
+              auth="Container"
+              type="javax.sql.DataSource"
+              username="wpk8s_rw"
+              password="${DB_PASS}"
+              driverClassName="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://db:3306/converters-dev?autoReconnect=true"
+              validationQuery="SELECT 1"
+              testOnBorrow="true"
+              maxTotal="50"
+              maxIdle="4"
+              autoReconnect="true"/>
+
+  <Environment name="SBFC_WEBAPP_HOME"  value="/data/converters"              type="java.lang.String" override="false"/>
+  <Environment name="SBFC_WEBAPP_FILES" value="/data/converters/jobs/"        type="java.lang.String" override="false"/>
+  <Environment name="SBFC_WEBAPP_ZIP"   value="/data/converters/zip/"         type="java.lang.String" override="false"/>
+  <Environment name="SBFC_WEBAPP_WS"    value="/data/converters/ws/"          type="java.lang.String" override="false"/>
+  <Environment name="SBFC_HOME"         value="/data/converters/sbfc"         type="java.lang.String" override="false"/>
+
+  <!-- Runs the converter directly — no SSH/bsub cluster dispatch -->
+  <Environment name="SBFC_COMMAND"      value="/data/converters/sbfc/sbfConverterOnline.sh {1} {2} /data/converters/jobs/{0}.input" type="java.lang.String" override="false"/>
+
+  <!-- SBFC_JOB_STATUS omitted: job completion is detected via .done file polling -->
+
+  <Environment name="MAIL_SMTP_HOST"    value="localhost"       type="java.lang.String"  override="false"/>
+  <Environment name="MAIL_SMTP_PORT"    value="25"              type="java.lang.String"  override="false"/>
+  <Environment name="MAIL_FROM"         value="noreply@localhost" type="java.lang.String" override="false"/>
+
+  <Environment name="SESSION_TIMEOUT"           value="72"   type="java.lang.Integer" override="false"/>
+  <Environment name="SESSION_CLEANUP_FREQUENCY" value="3600" type="java.lang.Integer" override="false"/>
+  <Environment name="RESULT_UPDATE_FREQUENCY"   value="5"    type="java.lang.Integer" override="false"/>
+
+</Context>
