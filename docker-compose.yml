@@ -19,7 +19,7 @@ services:
   tomcat:
     build: .
     ports:
-      - "127.0.0.1:8090:8080"
+      - "127.0.0.1:8095:8080"
     volumes:
       - ./sbfc/lib:/data/converters/sbfc/lib:ro
       - ./sbfc/miriam.xml:/data/converters/sbfc/miriam.xml:ro
